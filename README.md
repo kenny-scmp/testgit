@@ -1,7 +1,7 @@
 add from local1
 add from local2
 add from local3
-XXXXXDX
+XXXXXDXx
 add from web1
 add from web2
 add from web3
