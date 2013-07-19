@@ -13,8 +13,4 @@
         return $this->response;
     }
 }
-
-
-
-
 ?>
