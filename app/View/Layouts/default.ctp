@@ -27,6 +27,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		<?php echo $cakeDescription ?>:
 		<?php echo $title_for_layout; ?>
 	</title>
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.min.css" />
 	<?php
 		echo $this->Html->meta('icon');
 
@@ -35,12 +36,25 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
+        echo $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
+        echo $this->Html->script('//malsup.github.com/jquery.form.js');
+        echo $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js');
+        echo $this->Html->script('//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js');
+        echo $this->Html->script('//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/additional-methods.min.js');
 	?>
 </head>
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
+			<h1>
+                |
+                <?php echo $this->Html->link('Section', array('controller'=>'sections','action'=>'index')); ?> |
+                <?php echo $this->Html->link('Product', array('controller'=>'products','action'=>'index')); ?> |
+                <?php echo $this->Html->link('Package', array('controller'=>'packages','action'=>'index')); ?> |
+                <?php echo $this->Html->link('Channel', array('controller'=>'channels','action'=>'index')); ?> |
+                <?php echo $this->Html->link('Section Mix', array('controller'=>'sectionMixes','action'=>'index')); ?>
+                |
+            </h1>
 		</div>
 		<div id="content">
 			<?php echo $this->Session->flash(); ?>

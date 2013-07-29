@@ -17,15 +17,16 @@ class User extends AppModel {
 
     public $validate = array(
         'username' => array(
-            'required' => array(
-                'rule' => array('notEmpty'),
-                'message' => 'A username is required'
+            'email' => array(
+                'rule' => 'email',
+                'required' => true,
+                'message' => 'user name error message',
             )
         ),
         'password' => array(
             'required' => array(
-                'rule' => array('notEmpty'),
-                'message' => 'A password is required'
+                'rule' => array('minLength','6'),
+                'message' => 'A password is require a min-length: 6'
             )
         )
     );

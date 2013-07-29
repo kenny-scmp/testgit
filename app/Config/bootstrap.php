@@ -107,3 +107,11 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+Configure::write('Product.type', array(
+    '1' => 'News',
+    '2' => 'Non-News',
+    '3' => 'Digital'
+));
+
+Configure::write('Common.weekday', array( '1'=>'Mon', '2'=>'Tue', '3'=>'Wed', '4'=>'Thur','5'=>'Fri','6'=>'Sat','7'=>'Sun'));
