@@ -19,7 +19,6 @@
 </table>
 <a href="#" onclick="return addRow()" style="float: right">[+more section]</a>
 <?=$this->Form->end(__('Save'));?>
-
 <script>
     var productWeekday = <?=json_encode($product['Product']['weekday'])?>;
     $(function() {
@@ -82,7 +81,7 @@
                     $checkbox<?=$i?>.prop('checked', true);
                 }
             } else {
-                <?php if (in_array($i, $product['Product']['weekday'])): ?>
+                <?php if (!empty($product['Product']['weekday']) && in_array($i, $product['Product']['weekday'])): ?>
                     $checkbox<?=$i?>.prop('checked', true);
                 <?php endif ?>
             }

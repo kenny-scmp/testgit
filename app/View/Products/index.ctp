@@ -8,20 +8,28 @@
 <table>
     <thead>
     <tr>
-        <th>ID</th>
         <th>Name</th>
         <th>Type</th>
         <th>Desc</th>
+        <th>Weekday</th>
+        <th>Special Execution</th>
         <th>&nbsp;</th>
     </tr>
     </thead>
     <tbody>
     <?php foreach($products as $i=>$product): ?>
         <tr>
-            <td><?=$product['Product']['id'];?></td>
             <td><?=$product['Product']['name'];?></td>
             <td><?=Configure::read('Product.type')[$product['Product']['type']]?></td>
             <td><?=$product['Product']['desc'];?></td>
+            <td><?php echo $product['Product']['weekday'] ? h(implode(',',$product['Product']['weekday'])) : '&nbsp;'; ?></td>
+            <td>
+                <?php
+                foreach($product['ProductSpecialExec'] as $i=>$specialExec) {
+                    echo $specialExec['SpecialExec']['name'].' -> '.$specialExec['remark'].'<br>';
+                }
+                ?>
+            </td>
             <td>
                 <?php
                     if($product['Product']['type']=='1') {

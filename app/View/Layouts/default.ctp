@@ -48,6 +48,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		<div id="header">
 			<h1>
                 |
+                <?php echo $this->Html->link('Special Exec', array('controller'=>'specialExecs','action'=>'index')); ?> |
                 <?php echo $this->Html->link('Section', array('controller'=>'sections','action'=>'index')); ?> |
                 <?php echo $this->Html->link('Product', array('controller'=>'products','action'=>'index')); ?> |
                 <?php echo $this->Html->link('Package', array('controller'=>'packages','action'=>'index')); ?> |

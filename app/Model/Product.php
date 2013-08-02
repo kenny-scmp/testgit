@@ -3,6 +3,7 @@ class Product extends AppModel {
     public $hasMany = array(
         'ProductSection',
         'PackageProduct',
+        'ProductSpecialExec',
         'Section' => array(
             'foreignKey' => false,
             'conditions' => array('Section.product_code'=>'Product.code')

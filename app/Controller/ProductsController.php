@@ -14,7 +14,7 @@ class ProductsController extends AppController {
     public function add() {
         if ($this->request->is('post')) {
             $this->Product->create();
-            if ($this->Product->save($this->request->data)) {
+            if ($this->Product->saveAssociated($this->request->data)) {
                 $this->Session->setFlash(__('Product saved'));
             } else {
                 $this->Session->setFlash(implode("",array_column($this->Product->validationErrors, 0)));
@@ -22,6 +22,8 @@ class ProductsController extends AppController {
             $this->redirect(array('action'=>'index'));
         } else {
             if ($this->request->is('ajax')) {
+                $specialExecs = $this->Product->ProductSpecialExec->SpecialExec->find('all');
+                $this->set(compact('specialExecs'));
                 $this->autoLayout = false;
             }
         }
