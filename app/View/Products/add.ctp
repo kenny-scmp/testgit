@@ -22,11 +22,13 @@
                 <tr style='display:none' id='rowtpl'>
                     <td>
                         <select>
+                            <option value="">- please choose -</option>
                             <?php foreach($specialExecs as $specialExec): ?>
                                 <option value="<?=$specialExec['SpecialExec']['id']?>"><?=$specialExec['SpecialExec']['name']?></option>
                             <?php endforeach ?>
                         </select>
                         <input type="text" style="width:auto"/>
+                        <a href="#" onclick="$(this).closest('tr').remove();return false;">[x]</a>
                     </td>
                 </tr>
             </table>
