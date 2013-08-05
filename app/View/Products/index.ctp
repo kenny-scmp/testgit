@@ -26,7 +26,9 @@
             <td>
                 <?php
                 foreach($product['ProductSpecialExec'] as $i=>$specialExec) {
-                    echo $specialExec['SpecialExec']['name'].' -> '.$specialExec['remark'].'<br>';
+                    if (!empty($specialExec['SpecialExec'])) {
+                        echo $specialExec['SpecialExec']['name'].' -> '.$specialExec['remark'].'<br>';
+                    }
                 }
                 ?>
             </td>

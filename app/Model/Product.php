@@ -58,7 +58,7 @@ class Product extends AppModel {
             $results['weekday'] = explode(',',$results['weekday']);
         }
         foreach($results as $i=>$result) {
-            if (!empty($result[$this->alias]['weekday'])) {
+            if (!empty($result[$this->alias]['weekday']) && gettype($result[$this->alias]['weekday'])=='string') {
                 $results[$i][$this->alias]['weekday'] = explode(',',$result[$this->alias]['weekday']);
             }
         }

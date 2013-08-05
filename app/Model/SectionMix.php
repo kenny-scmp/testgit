@@ -1,6 +1,7 @@
 <?php
 class SectionMix extends AppModel {
-    public $belongsTo = array('Package','Channel');
+    public $belongsTo = array('Product','Package','Channel');
+    public $hasMany = array('SectionMixProduct');
 
     public $validate = array(
         'package_id' => array(
@@ -20,7 +21,8 @@ class SectionMix extends AppModel {
     public function _Pagination() {
         $conditions = array('SectionMix.status'=>'1');
         $params = array(
-            'order'=> array('SectionMix.created'=>'desc')
+            'order'=> array('SectionMix.created'=>'desc'),
+            'recursive'=>3
         );
         $params = Hash::insert($params, 'conditions', $conditions);
 

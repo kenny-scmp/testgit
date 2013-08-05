@@ -10,7 +10,8 @@
     <tr>
         <th>ID</th>
         <th>Channel</th>
-        <th>Package</th>
+        <th>Product/Package</th>
+        <th>Section</th>
     </tr>
     </thead>
     <tbody>
@@ -18,7 +19,25 @@
         <tr>
             <td><?=$sectionMix['SectionMix']['id']?></td>
             <td><?=$sectionMix['Channel']['title']?></td>
-            <td><?=$sectionMix['Package']['name']?></td>
+            <td><?=$sectionMix['Package']['name']?><?=$sectionMix['Product']['name']?></td>
+            <td>
+                <?php
+                foreach($sectionMix['SectionMixProduct'] as $sectionMixProduct) {
+                    echo '<ul>';
+                    echo '<li>'.$sectionMixProduct['Product']['name'];
+                    if (!empty($sectionMixProduct['SectionMixProductSection'])) {
+                        echo '<ul>';
+                        foreach($sectionMixProduct['SectionMixProductSection'] as $sectionMixProductSection) {
+                            echo '<li>'.$sectionMixProductSection['Section']['name'].'</li>';
+                        }
+                        echo '</ul>';
+                    } else {
+                        echo '</li>';
+                    }
+                    echo '</ul>';
+                }
+                ?>
+            </td>
         </tr>
     <?php endforeach ?>
     </tbody>

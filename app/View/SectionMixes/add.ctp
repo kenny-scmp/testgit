@@ -9,7 +9,7 @@
 <fieldset>
     <div class="input select required">
         <label style="display:inline">Product: </label>
-        <select onchange="loadSection(this)">
+        <select onchange="loadSection(this)" id="productOrPackage">
             <option value="">- Product or Package -</option>
             <optgroup label="Packages">
                 <?php foreach($packages as $package): ?>
@@ -58,9 +58,17 @@
         </table>
     </div>
 </fieldset>
-<?php //echo $this->Form->end(__('Submit'));?>
+<?php echo $this->Form->end(__('Submit'));?>
 
 <script>
+    $(function() {
+       $("#SectionMixAddForm").submit(function() {
+           var $productOrPackage = $('#productOrPackage');
+           var productOrPackage = $productOrPackage.find('option:selected').attr('type');
+           $productOrPackage.attr('name', productOrPackage=='package' ? 'data[SectionMix][package_id]' : 'data[SectionMix][product_id]');
+           return true;
+       });
+    });
     function loadSection(obj) {
         var $obj = $(obj);
         var id = $obj.val();
@@ -104,7 +112,7 @@
                         var $options = $('<option/>').val(id).text(title);
                         $select.append($options);
                     }
-                    $channelSelObj.after($select);
+                    $channelSelObj.after($select).removeAttr('name');
                 }
             });
         }
@@ -113,7 +121,8 @@
     function addSectionRow(product) {
         var productWeekday = product['Product'].weekday || [];
         var productSections = product['ProductSection'];
-        $checkbox = $('<td/>').append($('<input type="checkbox" checked/>').attr('productId', product['Product']['id']).attr('main','1').click(function() {
+        var sectionMixProductsCount = $("#SectionMixAddForm input[type=checkbox][main]").length;
+        $checkbox = $('<td/>').append($('<input type="checkbox" checked name="data[SectionMixProduct]['+sectionMixProductsCount+'][product_id]" value="'+product['Product']['id']+'"/>').attr('productId', product['Product']['id']).attr('main','1').click(function() {
             $(this).closest('table').find('tr[productId='+$(this).attr('productId')+']').find('input[type=checkbox]').prop('checked', $(this).prop('checked'));
         }));
         $tr = $('<tr/>').attr('productId', product['Product']['id']);
@@ -128,7 +137,7 @@
                 if (i==0) {
                     $_tr = $tr;
                 }
-                $_tr.append($('<td/>').append($('<input type="checkbox" checked/>').attr('productId', product['Product']['id']).click(function() {
+                $_tr.append($('<td/>').append($('<input type="checkbox" checked name="data[SectionMixProduct]['+sectionMixProductsCount+'][SectionMixProductSection][][section_id]" value="'+sections.section_id+'"/>').attr('productId', product['Product']['id']).click(function() {
                     $(this).closest('table').find('tr[productId='+$(this).attr('productId')+']').find('input[type=checkbox][main]').prop('checked',true);
                 })).append(sections.section_product_id ? sections.SectionProduct.Product.name : sections.Section.name));
                 for (var w=0; w<7; w++) {

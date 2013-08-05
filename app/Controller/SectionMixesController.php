@@ -11,10 +11,10 @@ class SectionMixesController extends AppController {
 
     public function add() {
         if ($this->request->is('post')) {
-            if ($this->SectionMix->save($this->request->data)) {
+            if ($this->SectionMix->saveAll($this->request->data, array('deep'=>true))) {
                 $this->Session->setFlash(__('Section Mix saved'));
             } else {
-                $this->Session->setFlash(__('error'));
+                $this->Session->setFlash(implode("",array_column($this->SectionMix->validationErrors, 0)));
             }
             $this->redirect(array('action'=>'index'));
         } else {
