@@ -4,6 +4,6 @@
  */
  
 class SpecialExecsController extends AppController {
-    public $scaffold = '';
+    public $scaffold;
 }
 ?>
