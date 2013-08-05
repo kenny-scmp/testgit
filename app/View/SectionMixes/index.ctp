@@ -28,7 +28,11 @@
                     if (!empty($sectionMixProduct['SectionMixProductSection'])) {
                         echo '<ul>';
                         foreach($sectionMixProduct['SectionMixProductSection'] as $sectionMixProductSection) {
-                            echo '<li>'.$sectionMixProductSection['Section']['name'].'</li>';
+                            if ($sectionMixProductSection['SectionProduct']) {
+                                echo '<li>'.$sectionMixProductSection['SectionProduct']['name'].'</li>';
+                            } else {
+                                echo '<li>'.$sectionMixProductSection['Section']['name'].'</li>';
+                            }
                         }
                         echo '</ul>';
                     } else {

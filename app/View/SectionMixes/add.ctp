@@ -98,6 +98,7 @@
         var $channelSelObj = $(channelSelObj);
         var selectedVal = $channelSelObj.val()
         $channelSelObj.next("select").remove();
+        $channelSelObj.attr('name','data[SectionMix][channel_id]');
         if (selectedVal) {
             var url = "<?=$this->Html->url(array('controller'=>'channels','action'=>'viewSubChannels.json'))?>";
             var param = {id : selectedVal};
@@ -137,7 +138,13 @@
                 if (i==0) {
                     $_tr = $tr;
                 }
-                $_tr.append($('<td/>').append($('<input type="checkbox" checked name="data[SectionMixProduct]['+sectionMixProductsCount+'][SectionMixProductSection][][section_id]" value="'+sections.section_id+'"/>').attr('productId', product['Product']['id']).click(function() {
+                var sectionIdName = 'section_id';
+                var sectionIdVal = sections.section_id;
+                if (sections.section_product_id) {
+                    sectionIdName = 'section_product_id';
+                    sectionIdVal = sections.section_product_id;
+                }
+                $_tr.append($('<td/>').append($('<input type="checkbox" checked name="data[SectionMixProduct]['+sectionMixProductsCount+'][SectionMixProductSection][]['+sectionIdName+']" value="'+sectionIdVal+'"/>').attr('productId', product['Product']['id']).click(function() {
                     $(this).closest('table').find('tr[productId='+$(this).attr('productId')+']').find('input[type=checkbox][main]').prop('checked',true);
                 })).append(sections.section_product_id ? sections.SectionProduct.Product.name : sections.Section.name));
                 for (var w=0; w<7; w++) {
