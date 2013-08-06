@@ -27,7 +27,6 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		<?php echo $cakeDescription ?>:
 		<?php echo $title_for_layout; ?>
 	</title>
-    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.min.css" />
 	<?php
 		echo $this->Html->meta('icon');
 
@@ -42,33 +41,27 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         echo $this->Html->script('//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js');
         echo $this->Html->script('//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/additional-methods.min.js');
 	?>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.min.css" />
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<div id="container">
-		<div id="header">
-			<h1>
-                |
-                <?php echo $this->Html->link('Special Exec', array('controller'=>'specialExecs','action'=>'index')); ?> |
-                <?php echo $this->Html->link('Section', array('controller'=>'sections','action'=>'index')); ?> |
-                <?php echo $this->Html->link('Product', array('controller'=>'products','action'=>'index')); ?> |
-                <?php echo $this->Html->link('Package', array('controller'=>'packages','action'=>'index')); ?> |
-                <?php echo $this->Html->link('Channel', array('controller'=>'channels','action'=>'index')); ?> |
-                <?php echo $this->Html->link('Section Mix', array('controller'=>'sectionMixes','action'=>'index')); ?>
-                |
-            </h1>
+		<div id="header" class="navbar navbar-inverse">
+            <ul class="nav navbar-nav">
+                <li <?=$this->params['controller']=='specialExecs' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Special Exec', array('controller'=>'specialExecs','action'=>'index')); ?></li>
+                <li <?=$this->params['controller']=='sections' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Section', array('controller'=>'sections','action'=>'index')); ?></li>
+                <li <?=$this->params['controller']=='products' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Product', array('controller'=>'products','action'=>'index')); ?></li>
+                <li <?=$this->params['controller']=='packages' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Package', array('controller'=>'packages','action'=>'index')); ?></li>
+                <li <?=$this->params['controller']=='channels' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Channel', array('controller'=>'channels','action'=>'index')); ?></li>
+                <li <?=$this->params['controller']=='sectionMixes' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Section Mix', array('controller'=>'sectionMixes','action'=>'index')); ?></li>
+            </ul>
 		</div>
 		<div id="content">
 			<?php echo $this->Session->flash(); ?>
-
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
 		</div>
 	</div>
 	<?php echo $this->element('sql_dump'); ?>

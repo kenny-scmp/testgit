@@ -5,7 +5,7 @@
  */
 ?>
 <?=$this->Html->link('Add Product', array('action'=>'add'), array('onclick'=>'return addproduct(this)'))?>
-<table>
+<table class="table table-hover table-condensed">
     <thead>
     <tr>
         <th>Name</th>
@@ -52,18 +52,10 @@
 <script>
     function addproduct(obj) {
         url = obj.getAttribute('href');
-        var $dialog = $('<div></div>')
-            .load(url, function() {
-                $dialog.dialog('open');
-            })
-            .dialog({
-                autoOpen: false,
-                modal: true,
-                title: "Add New Product",
-                width: 'auto',
-                close: function() {
-                    $(this).dialog('destroy').remove();
-                }
+        var $dialog = $('<div class="modal fade"></div>').load(url, function() {
+                $dialog.modal().on('hidden.bs.modal', function() {
+                    $dialog.remove();
+                });
             });
         return false;
     }
@@ -86,4 +78,5 @@
         return false;
     }
 </script>
+
 
