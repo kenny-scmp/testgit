@@ -30,7 +30,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<?php
 		echo $this->Html->meta('icon');
 
-		echo $this->Html->css('cake.generic');
+		//echo $this->Html->css('cake.generic');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -42,19 +42,40 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         echo $this->Html->script('//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/additional-methods.min.js');
 	?>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.min.css" />
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+
+    <script>
+        function confirmPost(url,msg) {
+            if (confirm(msg)) {
+                var $form = $('<form/>').attr({action: url,method: 'post'});
+                $('body').append($form);
+                $form.submit();
+                return true;
+            } else {
+                return false;
+            }
+        }
+        function model(url) {
+            var $dialog = $('<div class="modal fade"></div>').load(url, function() {
+                $dialog.modal().on('hidden.bs.modal', function() {
+                    $dialog.remove();
+                });
+            });
+        }
+    </script>
 </head>
 <body>
-	<div id="container">
+	<div id="container" class="container">
 		<div id="header" class="navbar navbar-inverse">
             <ul class="nav navbar-nav">
-                <li <?=$this->params['controller']=='specialExecs' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Special Exec', array('controller'=>'specialExecs','action'=>'index')); ?></li>
+                <li <?=$this->params['controller']=='special_execs' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Special Exec', array('controller'=>'special_execs','action'=>'index')); ?></li>
                 <li <?=$this->params['controller']=='sections' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Section', array('controller'=>'sections','action'=>'index')); ?></li>
                 <li <?=$this->params['controller']=='products' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Product', array('controller'=>'products','action'=>'index')); ?></li>
                 <li <?=$this->params['controller']=='packages' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Package', array('controller'=>'packages','action'=>'index')); ?></li>
                 <li <?=$this->params['controller']=='channels' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Channel', array('controller'=>'channels','action'=>'index')); ?></li>
-                <li <?=$this->params['controller']=='sectionMixes' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Section Mix', array('controller'=>'sectionMixes','action'=>'index')); ?></li>
+                <li <?=$this->params['controller']=='section_mixes' ? 'class=\'active\'' : ''?>><?php echo $this->Html->link('Section Mix', array('controller'=>'section_mixes','action'=>'index')); ?></li>
             </ul>
 		</div>
 		<div id="content">

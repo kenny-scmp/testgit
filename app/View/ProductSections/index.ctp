@@ -5,20 +5,37 @@
  */
 ?>
 <?=$this->Form->create('ProductSection',array('action'=>'add?product_id='.$product['Product']['id']));?>
-<table>
-    <thead>
-        <tr>
-            <th width="10">&nbsp;</th>
-            <th width="200">Section Name</th>
-            <?php foreach(Configure::read('Common.weekday') as $weekday): ?>
-                <th width="30"><?=$weekday?></th>
-            <?php endforeach ?>
-        </tr>
-    </thead>
-    <tbody id="sections"></tbody>
-</table>
-<a href="#" onclick="return addRow()" style="float: right">[+more section]</a>
-<?=$this->Form->end(__('Save'));?>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><?=$product['Product']['name']?> - Sections</h4>
+        </div>
+        <div class="modal-body">
+
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th width="10">&nbsp;</th>
+                    <th width="200">Section Name</th>
+                    <?php foreach(Configure::read('Common.weekday') as $weekday): ?>
+                        <th width="30"><?=$weekday?></th>
+                    <?php endforeach ?>
+                </tr>
+                </thead>
+                <tbody id="sections"></tbody>
+            </table>
+
+            <a href="#" onclick="return addRow()" style="float: right">[+more section]</a>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</div>
+<?php echo $this->Form->end(); ?>
+
 <script>
     var productWeekday = <?=json_encode($product['Product']['weekday'])?>;
     $(function() {
@@ -41,7 +58,7 @@
         var count = $('tr', $sections).length;
         var $tr = $('<tr/>');
         var $deleteBtn = $('<td/>').append(
-            $('<a/>').attr('href','#').attr('title','Remove this Section').html('[x]').click(function() {
+            $('<button class="close"/>').html('&times;').click(function() {
                 $(this).closest('tr').fadeOut(function() {
                     $(this).remove();
                     if ($('tr', $sections).length <=0) {
@@ -51,11 +68,11 @@
                 return false;
             })
         );
-        var $referBtn = $('<a/>').attr('href','#').attr('title','Refer to Non-News Product').html('[^]').click(function() {
+        var $referBtn = $('<a/>').attr('href','#').attr('title','Refer to Non-News Product').html('&nbsp;&nbsp;<i class="icon-circle-arrow-right"></i>').click(function() {
             loadSupplementsIntoSection($(this).closest('td'));
             return false;
         });
-        var $section = $('<select name="data['+count+'][ProductSection][section_id]"/>');
+        var $section = $('<select class="form-control" name="data['+count+'][ProductSection][section_id]" style="width:85%"/>');
         $section.append($('<option value=""/>').text('- Section -'));
         <?php foreach($sections as $i=>$section): ?>
             var sectionWeekday = <?=json_encode($section['Section']['weekday'])?>;
@@ -71,7 +88,7 @@
 
             }
         });
-        var $tdName = $('<td/>').append($section).append($referBtn);
+        var $tdName = $('<td class="form-inline"/>').append($section).append($referBtn);
         $tr.append($deleteBtn).append($tdName);
 
         <?php foreach(Configure::read('Common.weekday') as $i=>$weekday): ?>
@@ -105,7 +122,7 @@
 
     function loadSupplementsIntoSection($td, defaultVal) {
         var index = $td.closest('tr').index();
-        var $select = $('<select/>').attr('name','data['+index+'][ProductSection][section_product_id]');
+        var $select = $('<select class="form-control"/>').attr('name','data['+index+'][ProductSection][section_product_id]');
         var url = "<?=$this->Html->url(array('controller'=>'products','action'=>'findAllBy'))?>";
         $.post(url, {by: 'type', val: 2}, function(json) {
             if (json.length==0) {

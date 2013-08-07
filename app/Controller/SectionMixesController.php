@@ -4,6 +4,8 @@
  */
  
 class SectionMixesController extends AppController {
+    public $scaffold;
+
     public function index() {
         $sectionMixes = $this->SectionMix->find('all', $this->SectionMix->_Pagination());
         $this->set(compact('sectionMixes'));
@@ -21,7 +23,14 @@ class SectionMixesController extends AppController {
             if ($this->request->is('ajax')) {
                 $packages = $this->SectionMix->Package->find('all', $this->SectionMix->Package->_Pagination());
                 $products = $this->SectionMix->Package->PackageProduct->Product->find('all');
-                $channels = $this->SectionMix->Channel->find('list');
+                $channels = $this->SectionMix->Channel->find('list',array(
+                    'conditions' => array(
+                        'OR' => array(
+                            array('Channel.parent_id' => '0'),
+                            array('Channel.parent_id' => null)
+                        )
+                    )
+                ));
                 $this->set(compact('packages','channels','products'));
                 $this->autoLayout = false;
             }

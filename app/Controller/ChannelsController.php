@@ -7,12 +7,17 @@ class ChannelsController extends AppController {
     function index() {
         //$this->set('channels', $this->Channel->find('all'));
         $this->set('channels', $this->Channel->find('all', array(
-                    'conditions' => array('Channel.parent_id' => 0))));
+            'conditions' => array(
+                'OR' => array(
+                    array('Channel.parent_id' => '0'),
+                    array('Channel.parent_id' => null)
+                )
+            )
+        )));
         //debug( $this->Channel->find('all'));
     }
 
     function add() {
-
         $this->Channel->create();
         if ($this->Channel->saveAll($this->request->data)) {
 

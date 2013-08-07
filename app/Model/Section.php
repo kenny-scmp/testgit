@@ -16,5 +16,12 @@ class Section extends AppModel {
         }
         return $results;
     }
+
+    public function beforeSave($options = array()) {
+        if (!empty($this->data[$this->alias]['weekday'])) {
+            $this->data[$this->alias]['weekday'] = implode(",", $this->data[$this->alias]['weekday']);
+        }
+        return true;
+    }
 }
 ?>

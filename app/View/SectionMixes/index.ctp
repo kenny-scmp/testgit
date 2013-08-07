@@ -4,14 +4,14 @@
  * @var $this View
  */
 ?>
-<?=$this->Html->link('Add Section Mix', array('action'=>'add'), array('onclick'=>'return addsectionmix(this)'))?>
-<table>
+<table class="table table-striped table-hover">
     <thead>
     <tr>
-        <th>ID</th>
+        <th>#</th>
         <th>Channel</th>
         <th>Product/Package</th>
         <th>Section</th>
+        <th>&nbsp;</th>
     </tr>
     </thead>
     <tbody>
@@ -42,26 +42,11 @@
                 }
                 ?>
             </td>
+            <td width="1">
+                <button class="close" onclick="confirmPost('<?=$this->Html->url(array('action'=>'delete',$sectionMix['SectionMix']['id']))?>','<?=__('Delete #%s ?', $sectionMix['SectionMix']['id'])?>')">&times;</button>
+            </td>
         </tr>
     <?php endforeach ?>
     </tbody>
 </table>
-<script>
-    function addsectionmix(obj) {
-        url = obj.getAttribute('href');
-        var $dialog = $('<div></div>')
-            .load(url, function() {
-                $dialog.dialog('open');
-            })
-            .dialog({
-                autoOpen: false,
-                modal: true,
-                title: "Add New Section Mix",
-                width: '700',
-                close: function() {
-                    $(this).dialog('destroy').remove();
-                }
-            });
-        return false;
-    }
-</script>
+<button class="btn btn-default btn-block" onclick="model('<?=$this->Html->url(array('action'=>'add'))?>')">Add New</button>

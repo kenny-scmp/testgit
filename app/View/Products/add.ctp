@@ -16,66 +16,73 @@
             </div>
             <div class="modal-body">
 
-                <table>
-                    <tr>
-                        <td width="30%">
-                            <?= $this->Form->input('code'); ?>
-                            <?= $this->Form->input('name'); ?>
-                            <?= $this->Form->input('type', array(
-                                'options' => Configure::read('Product.type')
-                            ));?>
-                            <?= $this->Form->input('desc'); ?>
-                        </td>
-                        <td>
-                            <table id="specialexecs">
-                                <caption>Special Execution</caption>
-                                <tr style='display:none' id='rowtpl'>
-                                    <td>
-                                        <select>
-                                            <option value="">- please choose -</option>
-                                            <?php foreach($specialExecs as $specialExec): ?>
-                                                <option value="<?=$specialExec['SpecialExec']['id']?>"><?=$specialExec['SpecialExec']['name']?></option>
-                                            <?php endforeach ?>
-                                        </select>
-                                        <input type="text" style="width:auto"/>
-                                        <a href="#" onclick="$(this).closest('tr').remove();return false;">[x]</a>
-                                    </td>
-                                </tr>
-                            </table>
-                            <div style="text-align: right"><small><a href="#" onclick="return addSpecialExec(this)">[+ add more]</a></small></div>
-                        </td>
-                    </tr>
-                </table>
-                <?= $this->Form->input('weekday', array(
-                    'label' => false,
-                    'type'=>'select',
-                    'multiple'=>'checkbox',
-                    'options'=> array( '1'=>'Mon', '2'=>'Tue', '3'=>'Wed', '4'=>'Thur','5'=>'Fri','6'=>'Sat','7'=>'Sun'),
-                    'div' => array('class'=>'input select weekday')
-                )); ?>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <?= $this->Form->input('code', array(
+                            'div' => 'form-group',
+                            'class' => 'form-control'
+                        )); ?>
+                    </div>
+                    <div class="col-lg-6">
+                        <?= $this->Form->input('name', array(
+                            'div' => 'form-group',
+                            'class' => 'form-control'
+                        )); ?>
+                    </div>
+                </div>
 
-                <script>
-                    $(function() {
-                        addSpecialExec();
-                    });
-                    function addSpecialExec(a) {
-                        var $newRow = $('#rowtpl').clone().show();
-                        var count = $('#specialexecs tr').length;
-                        $newRow.removeAttr('id');
-                        $('select', $newRow).attr('name','data[ProductSpecialExec]['+(count-1)+'][special_exec_id]');
-                        $('input', $newRow).attr('name','data[ProductSpecialExec]['+(count-1)+'][remark]');
-                        $('#specialexecs').append($newRow);
-                        return false;
-                    }
-                </script>
 
-                <style>
-                    div.weekday>div.checkbox {
-                        clear: none;
-                        float: left;
-                    }
-                </style>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <?= $this->Form->input('type', array(
+                            'div' => 'form-group',
+                            'class' => 'form-control',
+                            'options' => Configure::read('Product.type')
+                        ));?>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label>Weekday(optional)</label><br>
+                        <div class="btn-group" data-toggle="buttons">
+                            <?php foreach(Configure::read('Common.weekday') as $i=>$weekday): ?>
+                                    <label class="btn btn-primary btn-small">
+                                        <input type="checkbox" value="<?=$i?>" name="data[Product][weekday][]"><?=$weekday?>
+                                    </label>
+                            <?php endforeach ?>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table id="specialexecs" class="col-lg-12">
+                            <tr style='display:none' id='rowtpl'>
+                                <td>
+                                    <div class="form-inline">
+                                        <div class="col-lg-1 form-group">
+                                            <button type="button" class="close" onclick="$(this).closest('tr').remove();return false;">&times;</button>
+                                        </div>
+                                        <div class="col-lg-5 form-group">
+                                            <select class="form-control">
+                                                <option value="">- special execution -</option>
+                                                <?php foreach($specialExecs as $specialExec): ?>
+                                                    <option value="<?=$specialExec['SpecialExec']['id']?>"><?=$specialExec['SpecialExec']['name']?></option>
+                                                <?php endforeach ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-6 form-group">
+                                            <input type="text" class="form-inline form-control" placeholder="Remark"/>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <button type="button" class="btn btn-link pull-right" onclick="return addSpecialExec(this)">[+ add more]</button>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -86,4 +93,18 @@
 
 <?= $this->Form->end(); ?>
 
+<script>
+    $(function() {
+        addSpecialExec();
+    });
+    function addSpecialExec(a) {
+        var $newRow = $('#rowtpl').clone().show();
+        var count = $('#specialexecs tr').length;
+        $newRow.removeAttr('id');
+        $('select', $newRow).attr('name','data[ProductSpecialExec]['+(count-1)+'][special_exec_id]');
+        $('input', $newRow).attr('name','data[ProductSpecialExec]['+(count-1)+'][remark]');
+        $('#specialexecs').append($newRow);
+        return false;
+    }
+</script>
 

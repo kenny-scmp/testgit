@@ -4,7 +4,8 @@
  */
  
 class PackagesController extends AppController {
-    public $components = array('RequestHandler');
+    public $components = array('RequestHandler','Paginator');
+    public $scaffold;
 
     public function index() {
         $packages = $this->Package->find('all', $this->Package->_Pagination());

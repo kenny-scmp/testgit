@@ -4,19 +4,33 @@
  * @var $this View
  */
 ?>
+
 <?php echo $this->Form->create('Package',array('action'=>'add')); ?>
-<fieldset>
-    <?php echo $this->Form->input('name'); ?>
-    <table>
-        <thead>
-            <tr>
-                <th width="1">&nbsp;</th>
-                <th>Product</th>
-                <?php foreach(Configure::read('Common.weekday') as $weekday): ?>
-                    <th width="30"><?=$weekday?></th>
-                <?php endforeach ?>
-            </tr>
-            <tbody>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Add Package</h4>
+        </div>
+        <div class="modal-body">
+            <?=$this->Form->input('name', array(
+                'label'=>false,
+                'type' => 'text',
+                'div' => 'form-group',
+                'class' => 'form-control',
+                'placeholder' => 'Name'
+            ));
+            ?>
+            <table class="table table-striped table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th width="1">&nbsp;</th>
+                    <th>Product</th>
+                    <?php foreach(Configure::read('Common.weekday') as $weekday): ?>
+                        <th width="30"><?=$weekday?></th>
+                    <?php endforeach ?>
+                </tr>
+                <tbody>
                 <?php foreach($products as $i=>$product): ?>
                     <tr>
                         <td>
@@ -29,17 +43,17 @@
                         <?php endforeach ?>
                     </tr>
                 <?php endforeach ?>
-            </tbody>
-        </thead>
-    </table>
-    <hr/><br/>
-    <b>Market:</b>
-    <input type="checkbox" checked style="float:none">All Region</p>
-</fieldset>
-
-<?php
-echo $this->Form->end(__('Submit'));
-?>
+                </tbody>
+                </thead>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</div>
+<?= $this->Form->end(); ?>
 
 <script>
     function enableWeekdaySelect(obj) {

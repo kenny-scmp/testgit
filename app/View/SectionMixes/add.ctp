@@ -4,61 +4,65 @@
  * @var $this View
  */
 ?>
-
 <?php echo $this->Form->create('SectionMix',array('action'=>'add')); ?>
-<fieldset>
-    <div class="input select required">
-        <label style="display:inline">Product: </label>
-        <select onchange="loadSection(this)" id="productOrPackage">
-            <option value="">- Product or Package -</option>
-            <optgroup label="Packages">
-                <?php foreach($packages as $package): ?>
-                    <option value="<?=$package['Package']['id']?>" type="package"><?=$package['Package']['name']?></option>
-                <?php endforeach ?>
-            </optgroup>
-            <optgroup label="Products">
-                <?php foreach($products as $product): ?>
-                    <option value="<?=$product['Product']['id']?>" type="product"><?=$product['Product']['name']?></option>
-                <?php endforeach ?>
-            </optgroup>
-        </select>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Add Section Mix</h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Product:</label>
+                <select onchange="loadSection(this)" id="productOrPackage" class="form-control">
+                    <option value="">- Product or Package -</option>
+                    <optgroup label="Packages">
+                        <?php foreach($packages as $package): ?>
+                            <option value="<?=$package['Package']['id']?>" type="package"><?=$package['Package']['name']?></option>
+                        <?php endforeach ?>
+                    </optgroup>
+                    <optgroup label="Products">
+                        <?php foreach($products as $product): ?>
+                            <option value="<?=$product['Product']['id']?>" type="product"><?=$product['Product']['name']?></option>
+                        <?php endforeach ?>
+                    </optgroup>
+                </select>
+            </div>
+
+            <?=$this->Form->input('channel_id', array(
+                'label' => array('text'=>'Channel: '),
+                'div' => array('class'=>'form-group'),
+                'class' => 'form-control',
+                'empty' => '--- Please Choose ---',
+                'onchange' => 'loadSubChannel(this);'));
+            ?>
+
+            <fieldset>
+                <legend>Section</legend>
+                <table id="sectionTable" class="table table-striped table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>Product</th>
+                        <th>Section</th>
+                        <?php foreach(Configure::read('Common.weekday') as $weekday): ?>
+                            <th width="30"><?=$weekday?></th>
+                        <?php endforeach ?>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </fieldset>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
     </div>
-    <?=$this->Form->input('channel_id', array('label'=>array('text'=>'Channel: ','style'=>'display:inline'),'empty' => '--- Please Choose ---', 'onchange'=>'loadSubChannel(this);'));?>
-    <?php
-        echo $this->Form->input('Market', array(
-            'label' => array(
-                'text' => 'Market: ',
-                'style' => 'display:inline'
-            ),
-            'options' => array('All Region'),
-            'empty' => '--- Please Choose ---'
-        ))
-    ?>
-    <div>
-        <table>
-            <tr>
-                <td>
-                    <b>Section:</b>
-                    <table id="sectionTable">
-                        <thead>
-                        <tr>
-                            <th>&nbsp;</th>
-                            <th>Product</th>
-                            <th>Section</th>
-                            <?php foreach(Configure::read('Common.weekday') as $weekday): ?>
-                                <th width="30"><?=$weekday?></th>
-                            <?php endforeach ?>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </div>
-</fieldset>
-<?php echo $this->Form->end(__('Submit'));?>
+</div>
+<?= $this->Form->end(); ?>
 
 <script>
     $(function() {
@@ -104,7 +108,7 @@
             var param = {id : selectedVal};
             $.post(url, param, function(json) {
                 if (json.length>0) {
-                    var $select = $('<select/>').attr('name','data[SectionMix][channel_id]');
+                    var $select = $('<select class="form-control"/>').attr('name','data[SectionMix][channel_id]');
                     $select.append($('<option/>').text('--- Sub Channels ---'));
                     for(i in json) {
                         var subchannel = json[i].Channel;

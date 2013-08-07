@@ -1,6 +1,5 @@
 <?php
 class Package extends AppModel {
-    //public $hasAndBelongsToMany = 'Product';
     public $hasMany = 'PackageProduct';
 
     public $validate = array(

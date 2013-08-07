@@ -4,8 +4,7 @@
  * @var $this View
  */
 ?>
-<?=$this->Html->link('Add Product', array('action'=>'add'), array('onclick'=>'return addproduct(this)'))?>
-<table class="table table-hover table-condensed">
+<table class="table table-striped table-hover">
     <thead>
     <tr>
         <th>Name</th>
@@ -35,12 +34,13 @@
             <td>
                 <?php
                     if($product['Product']['type']=='1') {
-                        echo $this->Html->link('Section('.count($product['ProductSection']).')', array(
+                        echo $this->Html->link('Section <span class="badge">'.count($product['ProductSection']).'</span>', array(
                            'controller' => 'productSections',
                            'action' => 'index',
                             $product['Product']['id']
                         ), array(
-                            'onclick' => 'return addSection(this, \''.$product['Product']['name'].'\','.$product['Product']['id'].')'
+                            'onclick' => 'return addSection(this, \''.$product['Product']['name'].'\','.$product['Product']['id'].')',
+                            'escape' => false
                         ));
                     }
                 ?>
@@ -49,11 +49,16 @@
     <?php endforeach ?>
     </tbody>
 </table>
+
+<button class="btn btn-default btn-block" onclick="return addproduct();">Add New</button>
+
 <script>
-    function addproduct(obj) {
-        url = obj.getAttribute('href');
+    function addproduct() {
+        url = '<?=$this->Html->url(array('action'=>'add'))?>';
         var $dialog = $('<div class="modal fade"></div>').load(url, function() {
-                $dialog.modal().on('hidden.bs.modal', function() {
+                $dialog.modal({
+                    backdrop: 'static'
+                }).on('hidden.bs.modal', function() {
                     $dialog.remove();
                 });
             });
@@ -62,7 +67,15 @@
 
     function addSection(obj, productName, productId) {
         url = obj.getAttribute('href');
-        var $dialog = $('<div></div>')
+        var $dialog = $('<div class="modal fade"></div>').load(url, function() {
+            $dialog.modal({
+                backdrop: 'static'
+            }).on('hidden.bs.modal', function() {
+                    $dialog.remove();
+                });
+        });
+        return false;
+        /*var $dialog = $('<div></div>')
             .load(url, function() {
                 $dialog.dialog('open');
             })
@@ -75,8 +88,6 @@
                     $(this).dialog('destroy').remove();
                 }
             });
-        return false;
+        return false;*/
     }
 </script>
-
-
