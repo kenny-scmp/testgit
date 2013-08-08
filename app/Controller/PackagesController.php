@@ -22,7 +22,8 @@ class PackagesController extends AppController {
             }
             $this->redirect(array('action' => 'index'));
         } else {
-            $products = $this->Package->PackageProduct->Product->find('all', $this->Package->PackageProduct->Product->_Pagination(array('recursive'=>'-1')));
+            $this->loadModel('Product');
+            $products = $this->Product->find('all',array('recursive'=>'-1'));
             $this->set(compact('products'));
             if ($this->request->is('ajax')) {
                 $this->autoLayout = false;

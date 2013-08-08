@@ -21,13 +21,13 @@
                 'placeholder' => 'Name'
             ));
             ?>
-            <table class="table table-striped table-hover table-condensed">
+            <table class="table table-striped table-hover table-condensed" id="products">
                 <thead>
                 <tr>
-                    <th width="1">&nbsp;</th>
+                    <th>&nbsp;</th>
                     <th>Product</th>
                     <?php foreach(Configure::read('Common.weekday') as $weekday): ?>
-                        <th width="30"><?=$weekday?></th>
+                        <th><?=$weekday?></th>
                     <?php endforeach ?>
                 </tr>
                 <tbody>
@@ -54,8 +54,27 @@
     </div>
 </div>
 <?= $this->Form->end(); ?>
-
 <script>
+    $(function() {
+       $('#products').dataTable({
+           "bInfo": false,
+           "bSort": false,
+           "sPaginationType": "bootstrap",
+           "iDisplayLength": 8,
+           "bFilter": false,
+           "sScrollY": "250px",
+           "sDom": "tp<'clearfix'>",
+           "bScrollCollapse": true,
+           "fnInitComplete": function(oSettings) {
+               console.log($('#products').dataTable());
+               setTimeout(function() {
+                   $('.paging_bootstrap ul').addClass('pagination pagination-centered');
+                   $('#products').dataTable().fnAdjustColumnSizing(false);
+               },1);
+           }
+       });
+        //$("#products").dataTable().fnAdjustColumnSizing(false)
+    });
     function enableWeekdaySelect(obj) {
         var $this = $(obj);
         $this.closest('tr').find('input[type=checkbox][name*=weekday]').prop('disabled', !$this.prop('checked'));
