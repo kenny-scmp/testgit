@@ -14,7 +14,7 @@
         <div class="modal-body">
             <div class="form-group">
                 <label>Product:</label>
-                <select onchange="loadSection(this)" id="productOrPackage" class="form-control">
+                <select onchange="loadSection(this)" id="productOrPackage" class="form-control" required="required">
                     <option value="">- Product or Package -</option>
                     <optgroup label="Packages">
                         <?php foreach($packages as $package): ?>
@@ -34,6 +34,7 @@
                 'div' => array('class'=>'form-group'),
                 'class' => 'form-control',
                 'empty' => '--- Please Choose ---',
+                'required' => 'required',
                 'onchange' => 'loadSubChannel(this);'));
             ?>
 
@@ -127,18 +128,18 @@
         var productWeekday = product['Product'].weekday || [];
         var productSections = product['ProductSection'];
         var sectionMixProductsCount = $("#SectionMixAddForm input[type=checkbox][main]").length;
-        $checkbox = $('<td/>').append($('<input type="checkbox" checked name="data[SectionMixProduct]['+sectionMixProductsCount+'][product_id]" value="'+product['Product']['id']+'"/>').attr('productId', product['Product']['id']).attr('main','1').click(function() {
+        var $checkbox = $('<td/>').append($('<input type="checkbox" checked name="data[SectionMixProduct]['+sectionMixProductsCount+'][product_id]" value="'+product['Product']['id']+'"/>').attr('productId', product['Product']['id']).attr('main','1').click(function() {
             $(this).closest('table').find('tr[productId='+$(this).attr('productId')+']').find('input[type=checkbox]').prop('checked', $(this).prop('checked'));
         }));
-        $tr = $('<tr/>').attr('productId', product['Product']['id']);
-        $product = $('<td/>').html(product['Product'].name);
+        var $tr = $('<tr/>').attr('productId', product['Product']['id']);
+        var $product = $('<td/>').html(product['Product'].name);
         $tr.append($checkbox).append($product);
 
         if (productSections.length > 0) {
             $checkbox.attr('rowspan', productSections.length);
             $product.attr('rowspan', productSections.length);
             $.each(productSections, function(i, sections) {
-                var $_tr = $('<tr/>').attr('productId', product['Product']['id']);;
+                var $_tr = $('<tr/>').attr('productId', product['Product']['id']);
                 if (i==0) {
                     $_tr = $tr;
                 }
@@ -154,8 +155,9 @@
                 for (var w=0; w<7; w++) {
                     if (sections.weekday || sections.Section.weekday || productWeekday) {
                         var wd = sections.weekday ? sections.weekday : sections.Section.weekday;
-                        wd = wd ? wd : productWeekday
-                        $_tr.append($('<td align="center"/>').html($.inArray((w+1+''), wd)>=0 ? 'X' : '-'));
+                        wd = wd ? wd : productWeekday;
+                        var $wdChkBox = $('<input type="checkbox" name="" value="'+(w+1)+'"/>').prop('checked', $.inArray((w+1+''), wd)>=0 ? true : false);
+                        $_tr.append($('<td align="center"/>').append($wdChkBox));
                     }
                 }
                 $('#sectionTable tbody').append($_tr);
@@ -163,7 +165,8 @@
         } else {
             $tr.append($('<td/>').html('-'));
             for (var w=0; w<7; w++) {
-                $tr.append($('<td align="center"/>').html($.inArray((w+1+''), productWeekday)>=0 ? 'X' : '-'));
+                var $wdChkBox = $('<input type="checkbox" name="" value="'+(w+1)+'"/>').prop('checked', $.inArray((w+1+''), productWeekday)>=0 ? true : false);
+                $tr.append($('<td align="center"/>').append($wdChkBox));
             }
             $('#sectionTable tbody').append($tr);
         }

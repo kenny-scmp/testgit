@@ -20,7 +20,7 @@ class Product extends AppModel {
         'code' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'Product name is required'
+                'message' => 'Product code is required'
             )
         ),
         'type' => array(

@@ -46,6 +46,9 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
 
+    <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/additional-methods.min.js"></script>
+
     <script>
         function confirmPost(url,msg) {
             if (confirm(msg)) {
@@ -64,6 +67,66 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
                 });
             });
         }
+        function popover($element, message, options) {
+            var defaultSetting = {
+                placement: 'top',
+                html: true,
+                content: message
+            };
+            var settings = $.extend({}, defaultSetting, options);
+            var _popover = $element.popover(settings);
+            _popover.data('bs.popover').options.content = message;
+            return _popover;
+        }
+        function initForm($target) {
+            $target = $target || $('body');
+            $('form:not([init])', $target).each(function() {
+                $(this).prop('novalidate',true);
+                $(this).validate();
+                $(this).attr('init', true);
+            });
+        }
+        function pageInit($target) {
+            $.validator.setDefaults({
+                showErrors: function(map, list) {
+                    $.each( this.successList , function(index, value) {
+                        var $elem = $(value);
+                        var errContainerId = $elem.attr('errContainerId');
+                        if (errContainerId) {
+                            if ($("#"+errContainerId).length) {
+                                $elem = $("#"+errContainerId);
+                            }
+                        }
+                    });
+                    $.each( list , function(index, value) {
+                        var $elem = $(value.element);
+                        var errContainerId = $elem.attr('errContainerId');
+                        if (errContainerId) {
+                            if ($("#"+errContainerId).length) {
+                                $elem = $("#"+errContainerId);
+                            }
+                        }
+                        var $popover = popover($elem, '<i class="icon-warning-sign" style="color:red"></i>&nbsp;'+value.message);
+                        $popover.popover('show');
+                    });
+                }
+            });
+
+            initForm($target);
+        }
+        $(function() {
+            pageInit();
+            $('body').on('shown.bs.modal','.modal', function() {
+                pageInit($(this));
+            });
+            $('body').on('hidden.bs.popover','.popover', function (elem) {
+                console.log(elem)
+            });
+            $(document).ajaxComplete(function(event, xhr, settings) {
+                if (settings.dataType=='html') {
+                }
+            });
+        })
     </script>
 </head>
 <body>

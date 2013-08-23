@@ -75,19 +75,5 @@
                 });
         });
         return false;
-        /*var $dialog = $('<div></div>')
-            .load(url, function() {
-                $dialog.dialog('open');
-            })
-            .dialog({
-                autoOpen: false,
-                modal: true,
-                title: productName+" - Sections",
-                width: 'auto',
-                close: function() {
-                    $(this).dialog('destroy').remove();
-                }
-            });
-        return false;*/
     }
 </script>

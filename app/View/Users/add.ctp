@@ -8,7 +8,7 @@
 <fieldset>
     <legend><?php echo __('Add User'); ?></legend>
     <?php
-    echo $this->Form->input('username', array('minlength'=>'2','data-msg-minlength'=>'test - min length:2'));
+    echo $this->Form->input('username', array('minlength'=>'2','data-msg-minlength'=>'test - min length:2','data-placement'=>'right'));
     echo $this->Form->input('password');
     echo $this->Form->file('attachment');
     ?>

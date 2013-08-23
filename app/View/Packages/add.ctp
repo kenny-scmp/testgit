@@ -5,6 +5,19 @@
  */
 ?>
 
+<script>
+$(function() {
+    $.validator.addMethod('requireOneProduct', function (value) { return $('.require-one-product:checked').size() > 0; }, 'Please select at least one product.');
+    $("#PackageAddForm").find('input:checkbox[name*=product_id]:first').attr('requireOneProduct','1').end().validate({
+        groups: {
+            requireOneProduct: $.map($("#PackageAddForm").find('input:checkbox[name*=product_id]'), function(e) {return $(e).attr('name')}).join(' ')
+        }
+    });
+});
+
+//$("#PackageAddForm").find('input:checkbox[name*=product_id]')
+</script>
+
 <?php echo $this->Form->create('Package',array('action'=>'add')); ?>
 <div class="modal-dialog">
     <div class="modal-content">
@@ -21,6 +34,7 @@
                 'placeholder' => 'Name'
             ));
             ?>
+            <div id="errContainer-oneProduct" style="width:1px;position:absolute;height:1px;margin-top:20px">&nbsp;</div>
             <table class="table table-striped table-hover table-condensed" id="products">
                 <thead>
                 <tr>
@@ -34,7 +48,7 @@
                 <?php foreach($products as $i=>$product): ?>
                     <tr>
                         <td>
-                            <?=$this->Form->input(null, array('name'=>'data[PackageProduct]['.$i.'][product_id]','type'=>'checkbox','label'=>false,'hiddenField'=>false,'value'=>$product['Product']['id'],'onclick'=>'enableWeekdaySelect(this)'));?>
+                            <?=$this->Form->input(null, array('name'=>'data[PackageProduct]['.$i.'][product_id]','type'=>'checkbox','label'=>false,'hiddenField'=>false,'value'=>$product['Product']['id'],'onclick'=>'enableWeekdaySelect(this)','class'=>'require-one-product', 'errContainerId'=>'errContainer-oneProduct'));?>
                         </td>
                         <td><?=$product['Product']['name']?></td>
                         <?php foreach(Configure::read('Common.weekday') as $weekdayId=>$weekday): ?>
@@ -66,7 +80,6 @@
            "sDom": "tp<'clearfix'>",
            "bScrollCollapse": true,
            "fnInitComplete": function(oSettings) {
-               console.log($('#products').dataTable());
                setTimeout(function() {
                    $('.paging_bootstrap ul').addClass('pagination pagination-centered');
                    $('#products').dataTable().fnAdjustColumnSizing(false);

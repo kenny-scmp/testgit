@@ -20,7 +20,6 @@ endforeach;
             <td style="text-align: center"><?php echo $this->Html->link('Delete',array('action'=>'delete', $channel['Channel']['id']),null,'Are you sure?')?></td>
         </tr>
     <?php endforeach; ?>
-
 </table>
 
 

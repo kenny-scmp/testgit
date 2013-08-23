@@ -68,11 +68,11 @@
                 return false;
             })
         );
-        var $referBtn = $('<a/>').attr('href','#').attr('title','Refer to Non-News Product').html('&nbsp;&nbsp;<i class="icon-circle-arrow-right"></i>').click(function() {
+        var $referBtn = $('<a/>').attr('href','#').attr('title','Switch to Non-News Product').html('&nbsp;&nbsp;<i class="icon-circle-arrow-right"></i>').click(function() {
             loadSupplementsIntoSection($(this).closest('td'));
             return false;
         });
-        var $section = $('<select class="form-control" name="data['+count+'][ProductSection][section_id]" style="width:85%"/>');
+        var $section = $('<select class="form-control" name="data['+count+'][ProductSection][section_id]" style="width:85%" required="required"/>');
         $section.append($('<option value=""/>').text('- Section -'));
         <?php foreach($sections as $i=>$section): ?>
             var sectionWeekday = <?=json_encode($section['Section']['weekday'])?>;
@@ -104,6 +104,10 @@
             }
             var $td<?=$i?> = $('<td/>').append($checkbox<?=$i?>);
             $tr.append($td<?=$i?>);
+
+            <?php if ($i==1): ?>
+                $checkbox<?=$i?>.attr('required','required');
+            <?php endif ?>
         <?php endforeach ?>
 
         $tr.append($('<input type="hidden" name="data['+count+'][ProductSection][product_id]" value="<?=$product['Product']['id']?>"/>'));
